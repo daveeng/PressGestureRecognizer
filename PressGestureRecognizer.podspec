@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
   # ―――  Spec Metadata  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
   s.name         = "PressGestureRecognizer"
-  s.version      = "0.0.1"
+  s.version      = "1.0.0"
   s.summary      = "A Gesture Recognizer for the Apple TV remote."
   s.description  = "A Gesture Recognizer for tvOS that recognizes directional presses (clicks) on the Apple TV remote."
 
