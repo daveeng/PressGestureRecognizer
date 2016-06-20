@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.summary      = "A Gesture Recognizer for the Apple TV remote."
   s.description  = "A Gesture Recognizer for tvOS that recognizes directional presses (clicks) on the Apple TV remote."
 
-  s.homepage     = "http://EXAMPLE/PressGestureRecognizer"
+  s.homepage     = "https://github.com/davidengelhardt/PressGestureRecognizer"
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
 
 
@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
 
   # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
-  s.source       = { :git => https://github.com/davidengelhardt/PressGestureRecognizer.git, :tag => "1.0.0" }
+  s.source       = { :git => "https://github.com/davidengelhardt/PressGestureRecognizer.git", :tag => "1.0.0" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -45,8 +45,6 @@ Pod::Spec.new do |s|
   # s.resources = "Resources/*.png"
 
   # s.preserve_paths = "FilesToSave", "MoreFilesToSave"
-
-
 
 
   # ――― Project Settings ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
