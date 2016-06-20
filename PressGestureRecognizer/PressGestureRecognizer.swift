@@ -10,7 +10,7 @@ import UIKit
 import UIKit.UIGestureRecognizerSubclass
 import GameController
 
-class PressGestureRecognizer: UIGestureRecognizer {
+public class PressGestureRecognizer: UIGestureRecognizer {
     
     enum Direction {
         case Up
@@ -23,7 +23,7 @@ class PressGestureRecognizer: UIGestureRecognizer {
     private var siriRemotePad: GCMicroGamepad?
     private var directionToRecognize: Direction!
     
-    init(target: AnyObject?, action: Selector, direction: Direction, edgeThreshold: Float = 0.5) {
+    public init(target: AnyObject?, action: Selector, direction: Direction, edgeThreshold: Float = 0.5) {
         super.init(target: target, action: action)
         self.directionToRecognize = direction
         self.edgeThreshold = edgeThreshold
@@ -32,7 +32,7 @@ class PressGestureRecognizer: UIGestureRecognizer {
     
     //MARK: Touches & Presses
     
-    override func pressesBegan(presses: Set<UIPress>, withEvent event: UIPressesEvent) {
+    override public func pressesBegan(presses: Set<UIPress>, withEvent event: UIPressesEvent) {
         for press in presses {
             switch press.type {
             case .Select:
@@ -68,17 +68,17 @@ class PressGestureRecognizer: UIGestureRecognizer {
         }
     }
     
-    override func pressesEnded(presses: Set<UIPress>, withEvent event: UIPressesEvent) {
+    override public func pressesEnded(presses: Set<UIPress>, withEvent event: UIPressesEvent) {
         super.pressesEnded(presses, withEvent: event)
         state = .Ended
     }
     
-    override func pressesChanged(presses: Set<UIPress>, withEvent event: UIPressesEvent) {
+    override public func pressesChanged(presses: Set<UIPress>, withEvent event: UIPressesEvent) {
         super.pressesChanged(presses, withEvent: event)
         state = .Changed
     }
     
-    override func pressesCancelled(presses: Set<UIPress>, withEvent event: UIPressesEvent) {
+    override public func pressesCancelled(presses: Set<UIPress>, withEvent event: UIPressesEvent) {
         super.pressesCancelled(presses, withEvent: event)
         state = .Cancelled
     }
@@ -102,7 +102,7 @@ class PressGestureRecognizer: UIGestureRecognizer {
         
         let controllerList = GCController.controllers()
         if controllerList.count < 1 {
-            print("no controller found")
+            print("No controller found: PressGestureRecognizer will not work")
         } else {
             if let pad = controllerList.first?.microGamepad {
                 siriRemotePad = pad
