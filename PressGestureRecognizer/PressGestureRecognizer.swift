@@ -12,7 +12,7 @@ import GameController
 
 public class PressGestureRecognizer: UIGestureRecognizer {
     
-    enum Direction {
+    public enum Direction {
         case Up
         case Down
         case Left
