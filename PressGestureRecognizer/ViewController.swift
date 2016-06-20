@@ -10,47 +10,40 @@ import UIKit
 import GameController
 
 class ViewController: UIViewController { //GCEventViewController
-
+    
     @IBOutlet weak var statusLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let pressGesture = PressGestureRecognizer(target: self, action: #selector(handleClick(_:)))
-        pressGesture.allowedTouchTypes = [NSNumber(integer: UITouchType.Indirect.rawValue)]
-        view.addGestureRecognizer(pressGesture)
+        let upGesture = PressGestureRecognizer(target: self, action: #selector(handleUpClick(_:)), direction: .Up)
+        upGesture.allowedTouchTypes = [NSNumber(integer: UITouchType.Indirect.rawValue)]
+        view.addGestureRecognizer(upGesture)
+        
+        let downGesture = PressGestureRecognizer(target: self, action: #selector(handleDownClick(_:)), direction: .Down)
+        downGesture.allowedTouchTypes = [NSNumber(integer: UITouchType.Indirect.rawValue)]
+        view.addGestureRecognizer(downGesture)
+        
+        let rightGesture = PressGestureRecognizer(target: self, action: #selector(handleRightClick(_:)), direction: .Right)
+        rightGesture.allowedTouchTypes = [NSNumber(integer: UITouchType.Indirect.rawValue)]
+        view.addGestureRecognizer(rightGesture)
+        
+        let leftGesture = PressGestureRecognizer(target: self, action: #selector(handleLeftClick(_:)), direction: .Left)
+        leftGesture.allowedTouchTypes = [NSNumber(integer: UITouchType.Indirect.rawValue)]
+        view.addGestureRecognizer(leftGesture)
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    func handleClick(sender: PressGestureRecognizer) {
+    func handleUpClick(sender: UIGestureRecognizer) {
         switch sender.state {
         case .Began:
-            switch sender.recognizedDirection {
-            case .Up:
-                print("Clicked Up")
-                statusLabel.text = "Clicked Up"
-            case .Down:
-                print("Clicked Down")
-                statusLabel.text = "Clicked Down"
-
-            case .Left:
-                print("Clicked Left")
-                statusLabel.text = "Clicked Left"
-
-            case .Right:
-                print("Clicked Right")
-                statusLabel.text = "Clicked Right"
-
-            default:
-                print("Clicked ???")
-                statusLabel.text = "Clicked ???"
-
-            }
+            print("Clicked Up")
+            statusLabel.text = "Clicked Up"
             statusLabel.textColor = .greenColor()
         case .Ended:
             statusLabel.textColor = .blackColor()
@@ -58,5 +51,44 @@ class ViewController: UIViewController { //GCEventViewController
             break
         }
     }
-
+    
+    func handleDownClick(sender: UIGestureRecognizer) {
+        switch sender.state {
+        case .Began:
+            print("Clicked Down")
+            statusLabel.text = "Clicked Down"
+            statusLabel.textColor = .greenColor()
+        case .Ended:
+            statusLabel.textColor = .blackColor()
+        default:
+            break
+        }
+    }
+    
+    func handleLeftClick(sender: UIGestureRecognizer) {
+        switch sender.state {
+        case .Began:
+            print("Clicked Left")
+            statusLabel.text = "Clicked Left"
+            statusLabel.textColor = .greenColor()
+        case .Ended:
+            statusLabel.textColor = .blackColor()
+        default:
+            break
+        }
+    }
+    
+    func handleRightClick(sender: UIGestureRecognizer) {
+        switch sender.state {
+        case .Began:
+            print("Clicked Right")
+            statusLabel.text = "Clicked Right"
+            statusLabel.textColor = .greenColor()
+        case .Ended:
+            statusLabel.textColor = .blackColor()
+        default:
+            break
+        }
+    }
+    
 }

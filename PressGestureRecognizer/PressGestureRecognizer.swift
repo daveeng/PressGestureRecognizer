@@ -17,50 +17,48 @@ class PressGestureRecognizer: UIGestureRecognizer {
         case Down
         case Left
         case Right
-        case None
     }
     
     private var edgeThreshold: Float = 0.5
-    private var remotePadXValue: Float = 0
-    private var remotePadYValue: Float = 0
+    private var siriRemotePad: GCMicroGamepad?
+    private var directionToRecognize: Direction!
     
-    var recognizedDirection: Direction = .None
-
-    init(target: AnyObject?, action: Selector, edgeThreshold: Float = 0.5) {
+    init(target: AnyObject?, action: Selector, direction: Direction, edgeThreshold: Float = 0.5) {
         super.init(target: target, action: action)
+        self.directionToRecognize = direction
         self.edgeThreshold = edgeThreshold
         registerForGameControllerNotifications()
     }
+    
+    //MARK: Touches & Presses
     
     override func pressesBegan(presses: Set<UIPress>, withEvent event: UIPressesEvent) {
         for press in presses {
             switch press.type {
             case .Select:
                 
+                var edgeCondition: Bool
                 
-                if abs(remotePadYValue) > edgeThreshold {
+                if let remotePadXValue = siriRemotePad?.dpad.xAxis.value,
+                    let remotePadYValue = siriRemotePad?.dpad.yAxis.value {
                     
-                    if remotePadYValue > edgeThreshold {
-                        
-                        recognizedDirection = .Up
-                        
-                    } else if remotePadYValue < -edgeThreshold {
-                        
-                        recognizedDirection = .Down
+                    switch directionToRecognize! {
+                    case .Up:
+                        edgeCondition = remotePadYValue > edgeThreshold
+                    case .Down:
+                        edgeCondition = remotePadYValue < -edgeThreshold
+                    case .Right:
+                        edgeCondition = remotePadXValue > edgeThreshold
+                    case .Left:
+                        edgeCondition = remotePadXValue < -edgeThreshold
                     }
-                    state = .Began
                     
-                } else if abs(remotePadXValue) > edgeThreshold {
-                    
-                    if remotePadXValue > edgeThreshold {
-                        
-                        recognizedDirection = .Right
-                        
-                    } else if remotePadXValue < -edgeThreshold {
-                        
-                        recognizedDirection = .Left
+                    if edgeCondition {
+                        state = .Began
+                    } else {
+                        state = .Failed
                     }
-                    state = .Began
+                    
                 }
                 
             default:
@@ -85,7 +83,7 @@ class PressGestureRecognizer: UIGestureRecognizer {
         state = .Cancelled
     }
     
-    //MARK: Apple TV Remote
+    //MARK: Siri Remote
     
     func registerForGameControllerNotifications() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleControllerDidConnectNotification), name: GCControllerDidConnectNotification, object: nil)
@@ -99,23 +97,18 @@ class PressGestureRecognizer: UIGestureRecognizer {
     func handleControllerDidDisconnectNotification() {
         
     }
-
+    
     func setupRemoteControlPad() {
         
         let controllerList = GCController.controllers()
         if controllerList.count < 1 {
             print("no controller found")
         } else {
-            if let siriRemotePad = controllerList.first?.microGamepad {
-                siriRemotePad.reportsAbsoluteDpadValues = true
-                siriRemotePad.dpad.valueChangedHandler = { (dpad: GCControllerDirectionPad, xValue: Float, yValue: Float) -> Void in
-
-                    self.remotePadXValue = xValue
-                    self.remotePadYValue = yValue
-                }
+            if let pad = controllerList.first?.microGamepad {
+                siriRemotePad = pad
+                siriRemotePad!.reportsAbsoluteDpadValues = true
             }
         }
-        
     }
     
 }
